@@ -1,0 +1,5 @@
+webai_element_sdk==1.0.*
+numpy==1.26.*
+opencv-python-headless==4.9.0.80
+Quart==0.19.5
+quart-cors==0.7.0

@@ -1,0 +1,2 @@
+webai_element_sdk==1.0.*
+numpy==1.26.*
