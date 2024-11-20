@@ -34,22 +34,24 @@ setup(name="element_name", packages=find_packages())
 
 The following is basic element with a single input and output. This element would operate in the middle of a flow. If you need an element at the start or end of a flow, remove the Inputs or Outputs class, respectively.
 
+This example uses a simple `TextFrame` for inputs and outputs, but there are also `ImageFrame` for passing images, and `MLXFrame` to pass raw bytes. 
+
 ```python
 import time
 from uuid import UUID
 
 from webai_element_sdk import Context, Element
-from webai_element_sdk.comms.messages import ColorFormat, Frame
+from webai_element_sdk.comms.messages import ColorFormat, TextFrame
 from webai_element_sdk.element.variables import ElementOutputs, ElementInputs, Input, Output
 
 
 class Inputs(ElementInputs):
-    default_in1 = Input[Frame]()
-    default_in2 = Input[AsyncIterator[Frame]]()
+    default_in1 = Input[TextFrame]()
+    default_in2 = Input[AsyncIterator[TextFrame]]()
 
 
 class Outputs(ElementOutputs):
-    default_out = Output[Frame]()
+    default_out = Output[TextFrame]()
 
 
 element = Element(
@@ -78,21 +80,17 @@ async def run(ctx: Context[Inputs, Outputs, None]):
     print(f"Running...")
 
     # retrieve a single Frame per execution
-    input_value: Frame = ctx.inputs.default_in1.value
+    input_value: TextFrame = ctx.inputs.default_in1.value
 
     # retrieve a generator to loop over
-    input_generator: AsyncIterator[Frame] = ctx.inputs.default_in2.value
+    input_generator: AsyncIterator[TextFrame] = ctx.inputs.default_in2.value
 
     for frame in input_generator:
         # ... do some work
 
     # ... do some work
 
-    output_value: Frame = Frame(
-        ndframe=None, # numpy image
-        rois=[],
-        other_data={"abc": 123},
-    )
+    output_value: TextFrame = TextFrame(text="ABC123")
 
     yield ctx.outputs.default_out(output_value)
 ```
@@ -157,15 +155,11 @@ async def run(ctx: Context[Inputs, Outputs, Settings]):
     setting2: float = ctx.settings.setting2.value
     setting3: bool = ctx.settings.setting3.value
 
-    input_value: Frame = ctx.inputs.default_in.value
+    input_value: TextFrame = ctx.inputs.default_in.value
 
     # ... do some work
 
-    output_value: Frame = Frame(
-        ndframe=None, # numpy image
-        rois=[],
-        other_data={"abc": 123},
-    )
+    output_value: TextFrame = TextFrame(text="ABC123")
 
     yield ctx.outputs.default_out(output_value)
 

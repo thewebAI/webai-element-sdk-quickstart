@@ -4,13 +4,13 @@ from uuid import UUID
 import numpy as np
 
 from webai_element_sdk.element.settings import ElementSettings, TextSetting, NumberSetting, equals
-from webai_element_sdk.comms.messages import ColorFormat, Frame, RegionOfInterest, SegmentationMask
+from webai_element_sdk.comms.messages import ColorFormat, ImageFrame, RegionOfInterest, SegmentationMask
 from webai_element_sdk.element import Context, Element
 from webai_element_sdk.element.variables import ElementOutputs, Output
 
 
 class Outputs(ElementOutputs):
-    default = Output[Frame]()
+    default = Output[ImageFrame]()
 
 
 class Settings(ElementSettings):
@@ -50,7 +50,7 @@ colors = {
 @element.executor
 async def simple_send(
     ctx: Context[None, Outputs, Settings]
-) -> AsyncIterator[Output[Frame]]:
+) -> AsyncIterator[Output[ImageFrame]]:
     """Simple Send"""
 
     img = np.zeros(shape=(1080, 1920, 3), dtype=np.uint8)
@@ -67,7 +67,7 @@ async def simple_send(
     rois = [
         RegionOfInterest(0, 0, img.shape[1], img.shape[0], [], mask)
     ]
-    frame = Frame(img, rois, ColorFormat.RGB)
+    frame = ImageFrame(img, rois, ColorFormat.RGB)
 
     while True:
         yield ctx.outputs.default(frame)

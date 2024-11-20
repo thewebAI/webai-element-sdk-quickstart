@@ -2,17 +2,17 @@ from typing import AsyncIterator
 from uuid import UUID
 
 import numpy as np
-from webai_element_sdk.comms.messages import Frame
+from webai_element_sdk.comms.messages import ImageFrame
 from webai_element_sdk.element import Context, Element
 from webai_element_sdk.element.variables import ElementInputs, ElementOutputs, Input, Output
 
 
 class Inputs(ElementInputs):
-    default = Input[Frame]()
+    default = Input[ImageFrame]()
 
 
 class Outputs(ElementOutputs):
-    default = Output[Frame]()
+    default = Output[ImageFrame]()
 
 
 element = Element(
@@ -20,7 +20,7 @@ element = Element(
     name="simple_relay",
     display_name="Simple Relay",
     version="0.1.0",
-    framework_version="0.4",
+    framework_version="0.9",
     inputs=Inputs(),
     outputs=Outputs(),
     is_inference=True,
@@ -32,7 +32,7 @@ y_offset_factor = np.random.uniform(0.25, 0.75)
 @element.executor
 async def simple_relay(
     ctx: Context[Inputs, Outputs, None]
-) -> AsyncIterator[Output[Frame]]:
+) -> AsyncIterator[Output[ImageFrame]]:
     """Simple Relay"""
     global idx
 

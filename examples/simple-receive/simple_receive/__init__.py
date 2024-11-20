@@ -4,7 +4,7 @@ from typing import AsyncIterator, Set
 from uuid import UUID
 
 from webai_element_sdk import Context, Element
-from webai_element_sdk.comms.messages import Frame, Preview
+from webai_element_sdk.comms.messages import ImageFrame, Preview
 from webai_element_sdk.element.variables import ElementInputs, ElementOutputs, Input, Output
 from quart import Quart, Response, render_template, jsonify
 from quart_cors import route_cors
@@ -13,7 +13,7 @@ from .interface import generate_image_from_frame
 
 
 class Inputs(ElementInputs):
-    default = Input[AsyncIterator[Frame]]()
+    default = Input[AsyncIterator[ImageFrame]]()
 
 
 class Outputs(ElementOutputs):
