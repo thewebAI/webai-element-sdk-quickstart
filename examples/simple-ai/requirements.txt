@@ -1,1 +1,1 @@
-webai_element_sdk==1.0.*
+webai_element_sdk==0.9.10
